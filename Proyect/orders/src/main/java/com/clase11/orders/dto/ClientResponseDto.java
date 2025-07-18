@@ -1,7 +1,6 @@
 package com.clase11.orders.dto;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
-import com.fasterxml.jackson.annotation.JsonProperty;
 import lombok.Getter;
 import lombok.Setter;
 
@@ -12,6 +11,4 @@ public class ClientResponseDto {
 
     private String id;
 
-    @JsonProperty("email")
-    private String email;
 }
