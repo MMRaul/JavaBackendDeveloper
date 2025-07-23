@@ -15,7 +15,7 @@ public class PilaCompleta<E> extends Stack<E> {
 
     public List<? super E> popAll(){
         List<E> outPut = new ArrayList<>();
-        while (this.empty()){
+        while (!this.empty()){
             E e = super.pop();
             outPut.add(e);
         }
