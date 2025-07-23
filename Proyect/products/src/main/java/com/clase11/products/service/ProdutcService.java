@@ -5,6 +5,9 @@ import com.clase11.products.repository.ProductRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
+import java.util.List;
+
 @Service
 @RequiredArgsConstructor
 public class ProdutcService {
@@ -23,10 +26,21 @@ public class ProdutcService {
         return productRepository.findByName(name);
     }
 
-    public Product updateProduct(String id, Integer quantityStock){
+    public Product updateStock(String id, Integer quantitySold){
+        Product product = productRepository.findById(id).get();
+        product.setStock(product.getStock() - quantitySold);
+
+        return productRepository.save(product);
+    }
+
+    public Product replenishStock(String id, Integer quantityStock){
         Product product = productRepository.findById(id).get();
         product.setStock(product.getStock() + quantityStock);
 
         return productRepository.save(product);
+    }
+
+    public List<Product> getAllProduct(){
+        return productRepository.findAll();
     }
 }

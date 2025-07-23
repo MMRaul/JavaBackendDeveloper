@@ -9,6 +9,8 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("api/v1/product")
 @RequiredArgsConstructor
@@ -31,7 +33,20 @@ public class ProductController {
 
     @PutMapping("/updateProduct")
     public ResponseEntity<Product> updateProduct(@RequestBody updateProductDto dto){
-        Product response = produtcService.updateProduct(dto.getId(), dto.getStock());
+        Product response = produtcService.updateStock(dto.getId(), dto.getQuantity());
         return new ResponseEntity<>(response, HttpStatus.OK);
     }
+
+    @PutMapping("/replenishProduct")
+    public ResponseEntity<Product> ReplenishProduct(@RequestBody updateProductDto dto){
+        Product response = produtcService.replenishStock(dto.getId(), dto.getQuantity());
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
+    @GetMapping("/productCatalog")
+    public ResponseEntity<List<Product>> getAllProduct(){
+        List<Product> response = produtcService.getAllProduct();
+        return new ResponseEntity<>(response, HttpStatus.OK);
+    }
+
 }

@@ -8,6 +8,6 @@ import lombok.Setter;
 public class updateProductDto {
 
     private String id;
-    private Integer stock;
+    private Integer quantity;
 
 }

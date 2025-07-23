@@ -11,4 +11,10 @@ public class GenerateNewOrderDto {
     @JsonProperty("client_email")
     private String clientEmail;
 
+    @JsonProperty("product_name")
+    private String productName;
+
+    @JsonProperty("quantity_sold")
+    private String quantitySold;
+
 }
