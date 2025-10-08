@@ -1,4 +1,4 @@
-package com.enyoi.products;
+package com.arka.products;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
