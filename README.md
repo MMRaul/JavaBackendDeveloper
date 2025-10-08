@@ -1,2 +1,2 @@
 # JavaBackendDeveloper
-Repositorio para actividades del curso Enyoi
+Repositorio para apis del proyecto
