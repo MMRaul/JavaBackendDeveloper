@@ -14,8 +14,6 @@ public class ProductoDTO {
     private String descripcion;
     private BigDecimal precio;
     private String categoria;
-    private int Stock;
-    private int umbralMinimo;
 
     public ProductoDTO() {
     }

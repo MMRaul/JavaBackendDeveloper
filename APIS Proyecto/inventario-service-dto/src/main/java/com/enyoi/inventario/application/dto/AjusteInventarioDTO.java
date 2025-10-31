@@ -3,7 +3,11 @@ package com.enyoi.inventario.application.dto;
 import jakarta.validation.constraints.Min;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.Pattern;
+import lombok.Getter;
+import lombok.Setter;
 
+@Getter
+@Setter
 public class AjusteInventarioDTO {
 
     @NotBlank(message = "La acción es obligatoria (COMPRA o VENTA)")
@@ -24,27 +28,4 @@ public class AjusteInventarioDTO {
         this.motivo = motivo;
     }
 
-    public String getAccion() {
-        return accion;
-    }
-
-    public void setAccion(String accion) {
-        this.accion = accion;
-    }
-
-    public int getCantidad() {
-        return cantidad;
-    }
-
-    public void setCantidad(int cantidad) {
-        this.cantidad = cantidad;
-    }
-
-    public String getMotivo() {
-        return motivo;
-    }
-
-    public void setMotivo(String motivo) {
-        this.motivo = motivo;
-    }
 }

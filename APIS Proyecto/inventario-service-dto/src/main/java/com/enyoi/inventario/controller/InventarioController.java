@@ -1,7 +1,6 @@
 package com.enyoi.inventario.controller;
 
-import com.enyoi.inventario.application.dto.AjusteInventarioDTO;
-import com.enyoi.inventario.application.dto.AjusteResponseDTO;
+import com.enyoi.inventario.application.dto.*;
 import jakarta.validation.Valid;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,8 +9,6 @@ import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
-import com.enyoi.inventario.application.dto.ProductoDTO;
-import com.enyoi.inventario.application.dto.InventarioDTO;
 import com.enyoi.inventario.application.service.InventarioAppService;
 
 @RestController
@@ -32,7 +29,7 @@ public class InventarioController {
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ProductoDTO> crearProducto( @RequestBody ProductoDTO dto) {
+    public Mono<ProductoDTO> crearProducto( @RequestBody ProductoInveDTO dto) {
         return service.registrarProducto(dto);
 
     }

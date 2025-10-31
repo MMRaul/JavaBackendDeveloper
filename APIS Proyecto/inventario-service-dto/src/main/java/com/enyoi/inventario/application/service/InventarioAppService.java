@@ -25,8 +25,14 @@ public class InventarioAppService {
         this.template = template;
     }
 
-    public Mono<ProductoDTO> registrarProducto(ProductoDTO dto) {
-        ProductoEntity e = InventarioMapper.toEntity(dto);
+    public Mono<ProductoDTO> registrarProducto(ProductoInveDTO dto) {
+        ProductoDTO prod = new ProductoDTO();
+        prod.setNombre(dto.getNombre());
+        prod.setDescripcion(dto.getDescripcion());
+        prod.setPrecio(dto.getPrecio());
+        prod.setCategoria(dto.getCategoria());
+
+        ProductoEntity e = InventarioMapper.toEntity(prod);
         e.setId(UUID.randomUUID().toString());
 
         return productoRepo.existsByNombre(e.getNombre())

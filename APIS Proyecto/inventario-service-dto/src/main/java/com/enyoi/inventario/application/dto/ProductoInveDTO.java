@@ -1,21 +1,22 @@
-package com.enyoi.inventario.infrastructure.entity;
+package com.enyoi.inventario.application.dto;
 
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.Id;
-import org.springframework.data.relational.core.mapping.Table;
 
 import java.math.BigDecimal;
 
-@Table("producto")
 @Getter
 @Setter
-public class ProductoEntity {
-    @Id
+public class ProductoInveDTO {
     private String id;
+
     private String nombre;
     private String descripcion;
     private BigDecimal precio;
     private String categoria;
+    private int Stock;
+    private int umbralMinimo;
 
+    public ProductoInveDTO() {
+    }
 }
