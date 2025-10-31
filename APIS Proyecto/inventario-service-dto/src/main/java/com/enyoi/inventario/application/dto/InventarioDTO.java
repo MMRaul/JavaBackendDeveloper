@@ -1,7 +1,13 @@
 package com.enyoi.inventario.application.dto;
 
+import lombok.Getter;
+import lombok.Setter;
+
+import java.math.BigDecimal;
 import java.time.LocalDateTime;
 
+@Getter
+@Setter
 public class InventarioDTO {
     private String id;
     private String productoId;
@@ -9,46 +15,13 @@ public class InventarioDTO {
     private int umbralMinimo;
     private LocalDateTime fechaActualizacion;
 
+    // 🔹 Nuevos campos del producto
+    private String nombreProducto;
+    private String descripcionProducto;
+    private BigDecimal precioProducto;
+    private String categoriaProducto;
+
     public InventarioDTO() {
     }
 
-    public String getId() {
-        return id;
-    }
-
-    public void setId(String id) {
-        this.id = id;
-    }
-
-    public String getProductoId() {
-        return productoId;
-    }
-
-    public void setProductoId(String p) {
-        this.productoId = p;
-    }
-
-    public int getStockActual() {
-        return stockActual;
-    }
-
-    public void setStockActual(int s) {
-        this.stockActual = s;
-    }
-
-    public int getUmbralMinimo() {
-        return umbralMinimo;
-    }
-
-    public void setUmbralMinimo(int u) {
-        this.umbralMinimo = u;
-    }
-
-    public java.time.LocalDateTime getFechaActualizacion() {
-        return fechaActualizacion;
-    }
-
-    public void setFechaActualizacion(java.time.LocalDateTime f) {
-        this.fechaActualizacion = f;
-    }
 }

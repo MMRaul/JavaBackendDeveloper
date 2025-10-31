@@ -17,13 +17,11 @@ import com.enyoi.inventario.infrastructure.repository.*;
 public class InventarioAppService {
     private final ProductoRepository productoRepo;
     private final InventarioRepository inventarioRepo;
-    private final HistoricoInventarioRepository historicoRepo;
     private final R2dbcEntityTemplate template;
 
-    public InventarioAppService(R2dbcEntityTemplate template, ProductoRepository productoRepo, InventarioRepository inventarioRepo, HistoricoInventarioRepository historicoRepo) {
+    public InventarioAppService(R2dbcEntityTemplate template, ProductoRepository productoRepo, InventarioRepository inventarioRepo) {
         this.productoRepo = productoRepo;
         this.inventarioRepo = inventarioRepo;
-        this.historicoRepo = historicoRepo;
         this.template = template;
     }
 
@@ -45,8 +43,8 @@ public class InventarioAppService {
                                 InventarioEntity inv = new InventarioEntity();
                                 inv.setId(UUID.randomUUID().toString());
                                 inv.setProductoId(saved.getId());
-                                inv.setStockActual(0);
-                                inv.setUmbralMinimo(10);
+                                inv.setStockActual(dto.getStock());
+                                inv.setUmbralMinimo(dto.getUmbralMinimo());
                                 inv.setFechaActualizacion(LocalDateTime.now());
                                 return template.insert(InventarioEntity.class)
                                         .using(inv)
@@ -55,8 +53,8 @@ public class InventarioAppService {
                 });
     }
 
-    public Mono<AjusteResponseDTO> ajustarStock(String inventarioId, String accion, int cantidad, String motivo) {
-        return inventarioRepo.findById(inventarioId)
+    public Mono<AjusteResponseDTO> ajustarStock(String productoId, String accion, int cantidad, String motivo) {
+        return inventarioRepo.findByProductoId(productoId)
                 .flatMap(inv -> {
                     int stockAnterior = inv.getStockActual();
                     int nuevoStock = stockAnterior;
@@ -108,7 +106,27 @@ public class InventarioAppService {
     }
 
     public Flux<InventarioDTO> listarInventarioBajo() {
-        return inventarioRepo.findAll().filter(inv -> inv.getStockActual() < inv.getUmbralMinimo()).map(InventarioMapper::toDTO);
+        return inventarioRepo.findAll()
+                .filter(inv -> inv.getStockActual() < inv.getUmbralMinimo()).map(InventarioMapper::toDTO)
+                .flatMap(inv ->
+                        productoRepo.findById(inv.getProductoId())
+                                .map(prod -> {
+                                    InventarioDTO dto = new InventarioDTO();
+                                    dto.setId(inv.getId());
+                                    dto.setProductoId(prod.getId());
+                                    dto.setStockActual(inv.getStockActual());
+                                    dto.setUmbralMinimo(inv.getUmbralMinimo());
+                                    dto.setFechaActualizacion(inv.getFechaActualizacion());
+
+                                    // 🔹 Asignamos también los datos del producto
+                                    dto.setNombreProducto(prod.getNombre());
+                                    dto.setDescripcionProducto(prod.getDescripcion());
+                                    dto.setPrecioProducto(prod.getPrecio());
+                                    dto.setCategoriaProducto(prod.getCategoria());
+
+                                    return dto;
+                                })
+                );
     }
 
     public Flux<ProductoDTO> listarProductos() {
@@ -119,6 +137,47 @@ public class InventarioAppService {
         return inventarioRepo.findByProductoId(productoId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException(
                         "No se encontró inventario asociado al producto con ID: " + productoId)))
-                .map(InventarioMapper::toDTO);
+                .flatMap(inv ->
+                        productoRepo.findById(productoId)
+                                .map(prod -> {
+                                    InventarioDTO dto = new InventarioDTO();
+                                    dto.setId(inv.getId());
+                                    dto.setProductoId(prod.getId());
+                                    dto.setStockActual(inv.getStockActual());
+                                    dto.setUmbralMinimo(inv.getUmbralMinimo());
+                                    dto.setFechaActualizacion(inv.getFechaActualizacion());
+
+                                    // 🔹 Asignamos también los datos del producto
+                                    dto.setNombreProducto(prod.getNombre());
+                                    dto.setDescripcionProducto(prod.getDescripcion());
+                                    dto.setPrecioProducto(prod.getPrecio());
+                                    dto.setCategoriaProducto(prod.getCategoria());
+
+                                    return dto;
+                                })
+                );
+    }
+
+    public Flux<InventarioDTO> listarInventario() {
+        return inventarioRepo.findAll()
+                .flatMap(inv ->
+                        productoRepo.findById(inv.getProductoId())
+                                .map(prod -> {
+                                    InventarioDTO dto = new InventarioDTO();
+                                    dto.setId(inv.getId());
+                                    dto.setProductoId(prod.getId());
+                                    dto.setStockActual(inv.getStockActual());
+                                    dto.setUmbralMinimo(inv.getUmbralMinimo());
+                                    dto.setFechaActualizacion(inv.getFechaActualizacion());
+
+                                    // 🔹 Asignamos también los datos del producto
+                                    dto.setNombreProducto(prod.getNombre());
+                                    dto.setDescripcionProducto(prod.getDescripcion());
+                                    dto.setPrecioProducto(prod.getPrecio());
+                                    dto.setCategoriaProducto(prod.getCategoria());
+
+                                    return dto;
+                                })
+                );
     }
 }

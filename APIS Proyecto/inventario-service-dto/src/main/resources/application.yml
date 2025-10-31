@@ -3,11 +3,5 @@ spring:
     url: r2dbc:mysql://localhost:3306/arka?allowPublicKeyRetrieval=true&useSSL=false
     username: root
     password: admin2025
-  flyway:
-    enabled: true
-    url: jdbc:mysql://localhost:3306/arka?allowPublicKeyRetrieval=true&useSSL=false
-    user: root
-    password: admin2025
-    locations: classpath:db/migration
 server:
   port: 8081

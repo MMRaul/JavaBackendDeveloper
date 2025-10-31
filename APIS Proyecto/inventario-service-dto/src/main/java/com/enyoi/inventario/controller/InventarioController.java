@@ -3,6 +3,8 @@ package com.enyoi.inventario.controller;
 import com.enyoi.inventario.application.dto.AjusteInventarioDTO;
 import com.enyoi.inventario.application.dto.AjusteResponseDTO;
 import jakarta.validation.Valid;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
 import reactor.core.publisher.Mono;
@@ -23,19 +25,20 @@ public class InventarioController {
     }
 
     /**
-     * Crear un nuevo producto (y su inventario inicial con stock 0)
+     * Crea un nuevo producto (y su inventario inicial con stock 0)
      */
     @PostMapping(
-            value = "/productos",
+            value = "/producto",
             consumes = MediaType.APPLICATION_JSON_VALUE,
             produces = MediaType.APPLICATION_JSON_VALUE
     )
-    public Mono<ProductoDTO> crearProducto(@RequestBody ProductoDTO dto) {
+    public Mono<ProductoDTO> crearProducto( @RequestBody ProductoDTO dto) {
         return service.registrarProducto(dto);
+
     }
 
     /**
-     * Listar todos los productos registrados
+     * Lista todos los productos registrados
      */
     @GetMapping(value = "/productos", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<ProductoDTO> listarProductos() {
@@ -43,7 +46,7 @@ public class InventarioController {
     }
 
     /**
-     * Obtener los inventarios con stock bajo (menor al umbral)
+     * Obtiene los inventarios con stock bajo (menor al umbral)
      */
     @GetMapping(value = "/inventario/bajo", produces = MediaType.APPLICATION_JSON_VALUE)
     public Flux<InventarioDTO> inventarioBajo() {
@@ -51,7 +54,7 @@ public class InventarioController {
     }
 
     /**
-     * Obtener el inventario de un producto por su ID
+     * Obtiene el inventario de un producto por su ID
      */
     @GetMapping(value = "/inventario/{idProducto}", produces = MediaType.APPLICATION_JSON_VALUE)
     public Mono<InventarioDTO> obtenerInventario(@PathVariable String idProducto) {
@@ -59,10 +62,18 @@ public class InventarioController {
     }
 
     /**
-     * Ajustar el stock de un inventario específico
+     * Ajusta el stock de un inventario específico
      */
-    @PostMapping(value = "/inventario/{id}/ajustar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<AjusteResponseDTO> ajustarStock(@PathVariable String id, @Valid @RequestBody AjusteInventarioDTO ajusteDto) {
-        return service.ajustarStock(id, ajusteDto.getAccion(), ajusteDto.getCantidad(), ajusteDto.getMotivo());
+    @PostMapping(value = "/inventario/{idProducto}/ajustar", consumes = MediaType.APPLICATION_JSON_VALUE)
+    public Mono<AjusteResponseDTO> ajustarStock(@PathVariable String idProducto, @Valid @RequestBody AjusteInventarioDTO ajusteDto) {
+        return service.ajustarStock(idProducto, ajusteDto.getAccion(), ajusteDto.getCantidad(), ajusteDto.getMotivo());
+    }
+
+    /**
+     * Obtiene todo el invetario
+     */
+    @GetMapping(value = "/inventario", produces = MediaType.APPLICATION_JSON_VALUE)
+    public Flux<InventarioDTO> obtenerInventario() {
+        return service.listarInventario();
     }
 }
