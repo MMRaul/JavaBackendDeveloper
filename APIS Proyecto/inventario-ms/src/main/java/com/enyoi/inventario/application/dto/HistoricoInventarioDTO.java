@@ -8,8 +8,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class HistoricoInventarioDTO {
-    private String id;
-    private String productoId;
+    private int id;
+    private int productoId;
     private int cantidadAnterior;
     private int cantidadNueva;
     private String motivo;
