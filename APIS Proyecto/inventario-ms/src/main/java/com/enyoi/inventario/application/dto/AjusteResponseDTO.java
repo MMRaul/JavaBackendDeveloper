@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class AjusteResponseDTO {
-    private String productoId;
+    private int productoId;
     private String nombreProducto;
     private int cantidadAnterior;
     private int cantidadNueva;
@@ -18,7 +18,7 @@ public class AjusteResponseDTO {
 
     public AjusteResponseDTO() {}
 
-    public AjusteResponseDTO(String productoId, String nombreProducto,
+    public AjusteResponseDTO(int productoId, String nombreProducto,
                              int cantidadAnterior, int cantidadNueva,
                              String motivo, String accion, LocalDateTime fechaCambio) {
         this.productoId = productoId;
