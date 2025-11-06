@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 public class InventarioEntity {
     @Id
-    private String id;
-    private String productoId;
+    private int id;
+    private int productoId;
     private int stockActual;
     private int umbralMinimo;
     private LocalDateTime fechaActualizacion;

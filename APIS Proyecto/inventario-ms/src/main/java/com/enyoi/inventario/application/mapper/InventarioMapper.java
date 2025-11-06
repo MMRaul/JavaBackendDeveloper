@@ -9,7 +9,7 @@ import java.util.UUID;
 public class InventarioMapper {
   public static ProductoEntity toEntity(ProductoDTO dto) {
     ProductoEntity e = new ProductoEntity();
-    e.setId(dto.getId() == null ? UUID.randomUUID().toString() : dto.getId());
+    e.setId(dto.getId());
     e.setNombre(dto.getNombre());
     e.setDescripcion(dto.getDescripcion());
     e.setPrecio(dto.getPrecio());
@@ -29,7 +29,7 @@ public class InventarioMapper {
 
   public static InventarioEntity toEntity(InventarioDTO dto) {
     InventarioEntity e = new InventarioEntity();
-    e.setId(dto.getId() == null ? UUID.randomUUID().toString() : dto.getId());
+    e.setId(dto.getId());
     e.setProductoId(dto.getProductoId());
     e.setStockActual(dto.getStockActual());
     e.setUmbralMinimo(dto.getUmbralMinimo());
@@ -49,7 +49,7 @@ public class InventarioMapper {
 
   public static HistoricoInventarioEntity toEntity(HistoricoInventarioDTO dto) {
     HistoricoInventarioEntity e = new HistoricoInventarioEntity();
-    e.setId(dto.getId() == null ? UUID.randomUUID().toString() : dto.getId());
+    e.setId(dto.getId());
     e.setProductoId(dto.getProductoId());
     e.setCantidadAnterior(dto.getCantidadAnterior());
     e.setCantidadNueva(dto.getCantidadNueva());
