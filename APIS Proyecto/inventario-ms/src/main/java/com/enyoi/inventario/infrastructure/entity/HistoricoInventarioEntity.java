@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 @Setter
 public class HistoricoInventarioEntity {
     @Id
-    private String id;
-    private String productoId;
+    private int id;
+    private int productoId;
     private int cantidadAnterior;
     private int cantidadNueva;
     private String motivo;
