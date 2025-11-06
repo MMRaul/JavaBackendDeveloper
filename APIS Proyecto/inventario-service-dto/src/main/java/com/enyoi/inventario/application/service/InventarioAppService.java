@@ -1,7 +1,11 @@
 package com.enyoi.inventario.application.service;
 
+import io.r2dbc.spi.ConnectionFactory;
 import org.springframework.data.r2dbc.core.R2dbcEntityTemplate;
+import org.springframework.r2dbc.connection.R2dbcTransactionManager;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.ReactiveTransactionManager;
+import org.springframework.transaction.reactive.TransactionalOperator;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
@@ -18,11 +22,15 @@ public class InventarioAppService {
     private final ProductoRepository productoRepo;
     private final InventarioRepository inventarioRepo;
     private final R2dbcEntityTemplate template;
+    private final TransactionalOperator txOperator;
 
-    public InventarioAppService(R2dbcEntityTemplate template, ProductoRepository productoRepo, InventarioRepository inventarioRepo) {
+    public InventarioAppService(R2dbcEntityTemplate template, ProductoRepository productoRepo, InventarioRepository inventarioRepo, ConnectionFactory connectionFactory) {
         this.productoRepo = productoRepo;
         this.inventarioRepo = inventarioRepo;
         this.template = template;
+
+        ReactiveTransactionManager tm = new R2dbcTransactionManager(connectionFactory);
+        this.txOperator = TransactionalOperator.create(tm);
     }
 
     public Mono<ProductoDTO> registrarProducto(ProductoInveDTO dto) {
@@ -56,7 +64,7 @@ public class InventarioAppService {
                                         .using(inv)
                                         .thenReturn(InventarioMapper.toDTO(saved));
                             });
-                });
+                }).as(txOperator::transactional);
     }
 
     public Mono<AjusteResponseDTO> ajustarStock(String productoId, String accion, int cantidad, String motivo) {

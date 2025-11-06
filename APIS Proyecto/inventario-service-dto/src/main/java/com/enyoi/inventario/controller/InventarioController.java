@@ -6,6 +6,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.http.MediaType;
+import org.springframework.web.server.ResponseStatusException;
 import reactor.core.publisher.Mono;
 import reactor.core.publisher.Flux;
 
@@ -30,6 +31,19 @@ public class InventarioController {
             produces = MediaType.APPLICATION_JSON_VALUE
     )
     public Mono<ProductoDTO> crearProducto( @RequestBody ProductoInveDTO dto) {
+        if (dto.getNombre() == null || dto.getNombre().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo nombre es obligatorio");
+        }
+        if (dto.getDescripcion() == null || dto.getDescripcion().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo descripcion es obligatorio");
+        }
+        if (dto.getPrecio() == null || dto.getPrecio().toString().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo precio es obligatorio");
+        }
+        if (dto.getCategoria() == null || dto.getCategoria().isBlank()) {
+            throw new ResponseStatusException(HttpStatus.BAD_REQUEST, "El campo categoria es obligatorio");
+        }
+
         return service.registrarProducto(dto);
 
     }
