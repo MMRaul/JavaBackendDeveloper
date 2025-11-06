@@ -7,16 +7,15 @@ import org.springframework.data.relational.core.mapping.Table;
 
 import java.time.LocalDateTime;
 
-@Table("historico_inventario")
+@Table("inventario")
 @Getter
 @Setter
-public class HistoricoInventarioEntity {
+public class InventarioEntity {
     @Id
-    private String id;
-    private String productoId;
-    private int cantidadAnterior;
-    private int cantidadNueva;
-    private String motivo;
-    private LocalDateTime fechaCambio;
+    private int id;
+    private int productoId;
+    private int stockActual;
+    private int umbralMinimo;
+    private LocalDateTime fechaActualizacion;
 
 }

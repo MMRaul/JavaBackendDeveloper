@@ -41,7 +41,6 @@ public class InventarioAppService {
         prod.setCategoria(dto.getCategoria());
 
         ProductoEntity e = InventarioMapper.toEntity(prod);
-        e.setId(UUID.randomUUID().toString());
 
         return productoRepo.existsByNombre(e.getNombre())
                 .flatMap(exists -> {
@@ -55,7 +54,6 @@ public class InventarioAppService {
                             .using(e)
                             .flatMap(saved -> {
                                 InventarioEntity inv = new InventarioEntity();
-                                inv.setId(UUID.randomUUID().toString());
                                 inv.setProductoId(saved.getId());
                                 inv.setStockActual(dto.getStock());
                                 inv.setUmbralMinimo(dto.getUmbralMinimo());
@@ -67,7 +65,7 @@ public class InventarioAppService {
                 }).as(txOperator::transactional);
     }
 
-    public Mono<AjusteResponseDTO> ajustarStock(String productoId, String accion, int cantidad, String motivo) {
+    public Mono<AjusteResponseDTO> ajustarStock(int productoId, String accion, int cantidad, String motivo) {
         return inventarioRepo.findByProductoId(productoId)
                 .flatMap(inv -> {
                     int stockAnterior = inv.getStockActual();
@@ -94,7 +92,6 @@ public class InventarioAppService {
                             .flatMap(saved -> {
                                 // Guardar en histórico
                                 HistoricoInventarioEntity h = new HistoricoInventarioEntity();
-                                h.setId(UUID.randomUUID().toString());
                                 h.setProductoId(saved.getProductoId());
                                 h.setCantidadAnterior(stockAnterior);
                                 h.setCantidadNueva(finalNuevoStock);
@@ -147,7 +144,7 @@ public class InventarioAppService {
         return productoRepo.findAll().map(InventarioMapper::toDTO);
     }
 
-    public Mono<InventarioDTO> obtenerInventarioPorProductoId(String productoId) {
+    public Mono<InventarioDTO> obtenerInventarioPorProductoId(int productoId) {
         return inventarioRepo.findByProductoId(productoId)
                 .switchIfEmpty(Mono.error(new IllegalArgumentException(
                         "No se encontró inventario asociado al producto con ID: " + productoId)))

@@ -9,8 +9,8 @@ import java.time.LocalDateTime;
 @Getter
 @Setter
 public class InventarioDTO {
-    private String id;
-    private String productoId;
+    private int id;
+    private int productoId;
     private int stockActual;
     private int umbralMinimo;
     private LocalDateTime fechaActualizacion;

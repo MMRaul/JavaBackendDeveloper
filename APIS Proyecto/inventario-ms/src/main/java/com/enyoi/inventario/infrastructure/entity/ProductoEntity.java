@@ -12,7 +12,7 @@ import java.math.BigDecimal;
 @Setter
 public class ProductoEntity {
     @Id
-    private String id;
+    private int id;
     private String nombre;
     private String descripcion;
     private BigDecimal precio;

@@ -68,7 +68,7 @@ public class InventarioController {
      * Obtiene el inventario de un producto por su ID
      */
     @GetMapping(value = "/inventario/{idProducto}", produces = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<InventarioDTO> obtenerInventario(@PathVariable String idProducto) {
+    public Mono<InventarioDTO> obtenerInventario(@PathVariable int idProducto) {
         return service.obtenerInventarioPorProductoId(idProducto);
     }
 
@@ -76,7 +76,7 @@ public class InventarioController {
      * Ajusta el stock de un inventario específico
      */
     @PostMapping(value = "/inventario/{idProducto}/ajustar", consumes = MediaType.APPLICATION_JSON_VALUE)
-    public Mono<AjusteResponseDTO> ajustarStock(@PathVariable String idProducto, @Valid @RequestBody AjusteInventarioDTO ajusteDto) {
+    public Mono<AjusteResponseDTO> ajustarStock(@PathVariable int idProducto, @Valid @RequestBody AjusteInventarioDTO ajusteDto) {
         return service.ajustarStock(idProducto, ajusteDto.getAccion(), ajusteDto.getCantidad(), ajusteDto.getMotivo());
     }
 
