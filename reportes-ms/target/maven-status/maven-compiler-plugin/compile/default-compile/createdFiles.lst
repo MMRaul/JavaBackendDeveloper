@@ -1,0 +1,9 @@
+com\arka\reportes\infrastructure\repository\InventarioRepository.class
+com\arka\reportes\controller\ReporteController.class
+com\arka\reportes\infrastructure\model\InventarioView.class
+com\arka\reportes\application\util\CsvExporter.class
+com\arka\reportes\infrastructure\model\VentasView.class
+com\arka\reportes\infrastructure\model\OrdenesView.class
+com\arka\reportes\infrastructure\repository\VentasRepository.class
+com\arka\reportes\MsReportesApplication.class
+com\arka\reportes\infrastructure\repository\OrdenesRepository.class
