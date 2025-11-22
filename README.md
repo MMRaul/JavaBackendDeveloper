@@ -1,2 +1,2 @@
 # JavaBackendDeveloper
-Repositorio para apis del proyecto
+Repositorio para documentacion y codigo fuente de los microservicios
